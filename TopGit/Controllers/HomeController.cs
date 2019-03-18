@@ -6,12 +6,6 @@ namespace TopGit.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: Home
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         //JQuery
         public ActionResult TopStars()
         {
