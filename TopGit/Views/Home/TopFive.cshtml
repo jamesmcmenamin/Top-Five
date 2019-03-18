@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "TopFive";
+}
+
+<h2>TopFive - MVC</h2>
+
+<p id="first"></p>
+<p id="second"></p>
+<p id="third"></p>
+<p id="fourth"></p>
+<p id="fifth"></p>
+<select id="dropdown">
+    <option id="" value="">select</option>
+</select>
+<button>Top Five</button>
+<script>
+    var dropdown = $('#dropdown');
+    var url = 'https://api.github.com/languages';
+    dropdown.empty();
+    dropdown.append('<option selected="true" disabled>Choose Language</option>');
+    dropdown.prop('selectedIndex', 0);
+
+    // Populate dropdown with list of provinces
+    $.getJSON(url, function (data) {
+        $.each(data, function (key, entry) {
+            dropdown.append($('<option></option>').attr('value', entry.abbreviation).text(entry.name));
+            console.log(entry.name);
+        });
+    });
+
+    $(document).ready(function () {
+        $("button").click(function () {
+            var lang = $("#dropdown").val();
+            $.get("@Url.Action("GetTopFive", "Home")", { language: lang })
+                .done(
+                function(response) {
+                    $("#first").text("First place is ... " + response.Items[0].Name + ", with a total star count of : " + response.Items[0].StargazersCount + " Stars ");
+                    $("#second").text("Second place is ... " + response.Items[1].Name + ", with a total star count of : " + response.Items[1].StargazersCount + " Stars ");
+                    $("#third").text("Third place is ... " + response.Items[2].Name + ", with a total star count of : " + response.Items[2].StargazersCount + " Stars ");
+                    $("#fourth").text("Fourth place is ... " + response.Items[3].Name + ", with a total star count of : " + response.Items[3].StargazersCount + " Stars ");
+                    $("#fifth").text("Fifth place is ... " + response.Items[4].Name + ", with a total star count of : " + response.Items[4].StargazersCount + " Stars ");
+                });
+        });
+    });
+</script>
